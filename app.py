@@ -2,6 +2,11 @@ import streamlit as st
 import pickle
 import numpy as np
 
+import pandas as pd
+
+df = pd.read_csv("Gold Price.csv")
+df["Date"] = pd.to_datetime(df["Date"])
+
 # ------------------------------
 # Page Configuration
 # ------------------------------
@@ -95,3 +100,28 @@ if st.button("Predict Gold Price"):
     prediction = model.predict(input_data)
 
     st.success(f"Predicted Gold Price = ₹ {prediction[0]:,.2f}")
+    st.markdown("---")
+st.subheader("📅 Predict Using Date")
+
+selected_date = st.date_input("Select a Date")
+
+if st.button("Predict From Date"):
+
+    row = df[df["Date"] == pd.to_datetime(selected_date)]
+
+    if not row.empty:
+
+        open_price = row.iloc[0]["Open"]
+        high_price = row.iloc[0]["High"]
+        low_price = row.iloc[0]["Low"]
+        volume = row.iloc[0]["Volume"]
+        change = row.iloc[0]["Chg%"]
+
+        input_data = np.array([[open_price, high_price, low_price, volume, change]])
+
+        prediction = model.predict(input_data)
+
+        st.success(f"Predicted Gold Price: ₹{prediction[0]:,.2f}")
+
+    else:
+        st.error("Date not found in dataset.")
