@@ -25,8 +25,8 @@ with open("model.pkl", "rb") as file:
 # ------------------------------
 # Title
 # ------------------------------
-st.title("🥇 Gold Price Prediction App")
-st.write("Predict the Gold Price using Machine Learning.")
+st.title("🥇 Vanu Gold Price Prediction App")
+st.write("Predict historical Gold Price using Machine Learning.")
 
 st.markdown("---")
 
